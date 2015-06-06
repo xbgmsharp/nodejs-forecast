@@ -5,8 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// Mongo admin WebGUI
-var mongoexpress = require('mongo-express');
+// Mongo admin WebGUI only on dev env
+/* If Openshift skip it as it does not work */
+if(!process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+	var mongoexpress = require('mongo-express');
+}
 
 // MongoDB driver
 var mongo = require('mongodb');
@@ -49,8 +52,12 @@ app.use(function(req,res,next){
 
 app.use('/', routes);
 app.use('/api', api);
-app.get('/db/*', mongoexpress);
-app.post('/db/*', mongoexpress);
+
+/* If Openshift skip it */
+if(!process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+	app.get('/db/*', mongoexpress);
+	app.post('/db/*', mongoexpress);
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
