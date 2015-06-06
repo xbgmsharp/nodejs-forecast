@@ -11,7 +11,16 @@ var mongoexpress = require('mongo-express');
 // MongoDB driver
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/forecast');
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+	connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+		process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+		process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+		process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+		process.env.OPENSHIFT_APP_NAME;
+} else {
+	connection_string = 'localhost:27017/forecast';
+}
+var db = monk(connection_string);
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
