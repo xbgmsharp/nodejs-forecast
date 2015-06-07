@@ -7,8 +7,9 @@ db = require('./db');
 var Forecast = require('forecast.io');
 var options = {
   APIKey: process.env.FORECAST_API_KEY,
-  exclude: 'currently,minutely,hourly,alerts',
-  units: 'auto'
+  exclude: 'currently,minutely,hourly,alerts,flagsstd',
+  units: 'auto',
+  lang: 'en'
 },
 forecast = new Forecast(options);
 
