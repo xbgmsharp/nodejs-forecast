@@ -29,7 +29,7 @@ exports.db_search = function(req, res, callback) {
 	if (lon[0] == "-") // longitude matching with 1 degre range
 	{
 		query["lon"] = { $in: [ new RegExp("^\\" + lon.substr(0, lon.indexOf('.')+1)) ]};
-	} else if (lat[0] == "+")
+	} else if (lon[0] == "+")
 	{
 		query["lon"] = { $in: [ new RegExp("^\\" + lon.substr(0, lon.indexOf('.')+1)) , new RegExp("^" + lon.match(/\d+/)[0] +".") ]};
 	} else {
