@@ -2,6 +2,17 @@
 ** DB functions
 ***/
 
+/* Calculate value in range of 0.5 Degres
+ * 1 Degres Latitude = 111 KM
+ */
+function Calc_Max_Min(value) {
+
+	max = parseFloat(value)+0.5;
+	min = parseFloat(value)-0.5;
+
+	return [ parseFloat(min.toPrecision(3)), parseFloat(max.toPrecision(3)) ];
+}
+
 exports.db_search = function(req, res, callback) {
 
         var lat = req.params.lat,
@@ -15,26 +26,12 @@ exports.db_search = function(req, res, callback) {
 	var collection = db.get('weatherdata');
 
 	/* Generate Query parameters */
-	/* { lat : { $in: [ /^53./, /^\+53./ ] } , lon : { $in: [ /^9./, /^\+9./ ] } , time: { $in: [/^142083/] } } */
+	/* { lat : { $gte: 51.6 , $lte : 52.1 } , lon : { $gte: 51.6 , $lte : 52.1 } , time: { $in: [/^142083/] } } */
 	var query = {};
-	if (lat[0] == "-") // latitude matching with 1 degre range
-	{
-		query["lat"] = { $in: [ new RegExp("^\\" + lat.substr(0, lat.indexOf('.')+1)) ]};
-	} else if (lat[0] == "+")
-	{
-		query["lat"] = { $in: [ new RegExp("^\\" + lat.substr(0, lat.indexOf('.')+1)) , new RegExp("^" + lat.match(/\d+/)[0] +".") ]};
-	} else {
-		query["lat"] = { $in: [ new RegExp("^" + lat.substr(0, lat.indexOf('.')+1)) , new RegExp("^\\+" + lat.match(/\d+/)[0] +".") ]};
-	}
-	if (lon[0] == "-") // longitude matching with 1 degre range
-	{
-		query["lon"] = { $in: [ new RegExp("^\\" + lon.substr(0, lon.indexOf('.')+1)) ]};
-	} else if (lon[0] == "+")
-	{
-		query["lon"] = { $in: [ new RegExp("^\\" + lon.substr(0, lon.indexOf('.')+1)) , new RegExp("^" + lon.match(/\d+/)[0] +".") ]};
-	} else {
-		query["lon"] = { $in: [ new RegExp("^" + lon.substr(0, lon.indexOf('.')+1)) , new RegExp("^\\+" + lon.match(/\d+/)[0] +".") ]};
-	}
+	mylat = Calc_Max_Min(lat);
+	query["lat"] = {$gte: mylat[0] , $lte: mylat[1] };
+	mylon = Calc_Max_Min(lon);
+	query["lon"] = {$gte: mylon[0] , $lte: mylon[1] };
 	query["time"] = { $in: [ new RegExp("^" + time.substr(0,6)) ]}; // within the same hour range
 	query["unit"] = unit;
 	query["lang"] = lang;
@@ -65,7 +62,7 @@ exports.db_insert = function(req, res, callback) {
 
 	console.log('Adding in DB for: ' + JSON.stringify(req.params));
 	var collection = db.get('weatherdata');
-	collection.insert({"lat": lat, "lon": lon, "time": time, "unit": unit, "lang": lang, "result": result}, {safe:true}, function(err, data){
+	collection.insert({"lat": parseFloat(lat), "lon": parseFloat(lon), "time": time, "unit": unit, "lang": lang, "result": result}, {safe:true}, function(err, data){
 		if (err) {
 			//res.send({'error':'An error has occurred'});
 			throw err;
