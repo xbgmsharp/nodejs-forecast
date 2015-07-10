@@ -32,7 +32,9 @@ router.get('/:lat/:lon/:time/:unit?/:lang?', function(req, res, next) {
 
 		/* If "result" is not empty then return it */
 		if (res.data[0] && res.data[0].result && res.data[0].result.length != 0) {
-			//console.log('SENDING: ' + JSON.stringify(res.data));
+			console.log('HIT: ' + JSON.stringify(res.data));
+			res.append('Cache-Control', 'public, max-age=2592000000'); // 30 Days = 86400000*30
+			res.append('X-Cache', 'HIT');
 			res.json({ 'success': res.data});
 		} else {
 
@@ -47,8 +49,10 @@ router.get('/:lat/:lon/:time/:unit?/:lang?', function(req, res, next) {
 					/* Insert result in DB for cache */
 					db.db_insert(req, res, function (req, res){
 						console.log('DEBUG: Back from db_insert');
-						//console.log('SENDING: ' + JSON.stringify(res.data));
+						console.log('MISS: ' + JSON.stringify(res.data));
 
+						res.append('Cache-Control', 'public, max-age=2592000000'); // 30 Days = 86400000*30
+						res.append('X-Cache', 'MISS');
 						res.json({ 'success': [res.data]});
 					});
 
