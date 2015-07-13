@@ -15,3 +15,7 @@ The data are store in MongoDB.
 See https://forecast-xbgmsharp.rhcloud.com
 
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/xbgmsharp/nodejs-forecast/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
