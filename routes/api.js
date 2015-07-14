@@ -17,7 +17,7 @@ router.get('/:lat/:lon/:time/:unit?/:lang?', function(req, res, next) {
 	}
 
 	/* TODO Check valid params, lenght, etc... */
-        // Override Default
+        // Set unit and lang if not defined
         if (!req.params.unit)
            req.params.unit = 'auto';
         if (!req.params.lang)

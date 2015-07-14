@@ -23,7 +23,6 @@ exports.db_search = function(req, res, callback) {
             db = req.db;
 
 	console.log('Searching in DB for: ' + JSON.stringify(req.params));
-	var collection = db.get('weatherdata');
 
 	/* Generate Query parameters */
 	/* { lat : { $gte: 51.6 , $lte : 52.1 } , lon : { $gte: 51.6 , $lte : 52.1 } , time: { $in: [/^142083/] } } */
@@ -36,6 +35,9 @@ exports.db_search = function(req, res, callback) {
 	query["unit"] = unit;
 	query["lang"] = lang;
 	console.log('Search query:'+ JSON.stringify(query));
+
+	/* Make Query to DB */
+	var collection = db.get('weatherdata');
 	collection.find(query, {limit:1}, function(err, data){
 	//collection.find({"lat": lat, "lon": lon, "time": time, "unit": unit, "lang": lang}, {}, function(err, data){
 	//collection.find(req.params, {}, function(err, data){
