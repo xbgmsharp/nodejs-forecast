@@ -5,7 +5,7 @@
   "homepage": "https://forecast-xbgmsharp.rhcloud.com/",
   "readmeFilename": "README.md",
   "license": "GPL-3.0+",
-  "version": "0.0.3-e889190",
+  "version": "0.0.4-a1aee2c",
   "private": true,
   "engines": {
     "node": ">= 0.10.0",
