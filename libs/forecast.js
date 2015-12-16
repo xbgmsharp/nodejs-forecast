@@ -1,5 +1,4 @@
 var util = require('util');
-db = require('./db');
 
 /****
 ** Forecast function
