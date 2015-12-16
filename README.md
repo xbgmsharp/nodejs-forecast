@@ -14,6 +14,54 @@ The data are store in MongoDB.
 
 See https://forecast-xbgmsharp.rhcloud.com
 
+Installing
+----------
+
+* Clone the repository
+
+```bash
+git clone https://github.com/xbgmsharp/nodejs-forecast
+cd nodejs-forecast
+```
+
+* Install dependencies
+
+```bash
+$ npm install
+```
+
+* Start the application
+
+```bash
+$ export FORECAST_API_KEY=...
+$ npm start
+```
+Or manually, you can define an IP and the PORT by using environment variables.
+```bash
+$ HOST=127.0.0.1 PORT=8080 DEBUG=nodejs-forecast node bin/www
+```
+
+* Point your browser to: [http://localhost:8080/](http://localhost:8080/)
+* Enjoy!
+
+Test
+-------
+First query
+```bash
+$ curl -sv "http://localhost:8080/api/:lat/:lon/:timesptamp" | jq .
+...
+< Cache-Control: public, max-age=2592000000
+< X-Cache: MISS
+```
+
+Second query
+```bash
+$ curl -sv "http://localhost:8080/api/:lat/:lon/:timesptamp" | jq .
+...
+< Cache-Control: public, max-age=2592000000
+< X-Cache: HIT
+```
+
 Licence
 -------
 The piwigo-openstreetmap plugin for Piwigo is free software:  you can redistribute it
@@ -25,4 +73,3 @@ ANY WARRANTY; without even the  implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 See <http://www.gnu.org/licenses/gpl.html>.
-
