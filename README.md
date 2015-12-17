@@ -1,6 +1,6 @@
 # nodejs-forecast
 
-This NodeJS application is use to proxy the Forecast.io request for the [Piwigo integration](http://piwigo.org/ext/extension_view.php?eid=795).
+This NodeJS application is use to proxy the [Forecast.io](http://forecast.io) request for the [Piwigo integration](http://piwigo.org/ext/extension_view.php?eid=795).
 
 This is mainly to hide my API key and to avoid the limit requests set by the forecast.io API, eg: 1000 per day free.
 
@@ -44,19 +44,27 @@ $ HOST=127.0.0.1 PORT=8080 DEBUG=nodejs-forecast node bin/www
 * Point your browser to: [http://localhost:8080/](http://localhost:8080/)
 * Enjoy!
 
-Test
--------
-First query
+Usage
+-----
+Query format:
+```
+/api/:lat/:lon/:time/:unit?/:lang?
+
+```
+If not specify the ``unit`` parameter fallback to ``auto`` and the ``lang`` parameter fallback to ``en``.
+Refer to the [Forecast API Docs](https://developer.forecast.io/docs/v2) for details.
+
+First query:
 ```bash
-$ curl -sv "http://localhost:8080/api/:lat/:lon/:timesptamp" | jq .
+$ curl -sv "http://localhost:8080/api/48.858366667/2.2942166667/1420309452" | jq .
 ...
 < Cache-Control: public, max-age=2592000000
 < X-Cache: MISS
 ```
 
-Second query
+Second query:
 ```bash
-$ curl -sv "http://localhost:8080/api/:lat/:lon/:timesptamp" | jq .
+$ curl -sv "http://localhost:8080/api/:lat/:lon/:time/:unit?/:lang?" | jq .
 ...
 < Cache-Control: public, max-age=2592000000
 < X-Cache: HIT
