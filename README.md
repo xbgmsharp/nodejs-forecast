@@ -49,7 +49,6 @@ Usage
 Query format:
 ```
 /api/:lat/:lon/:time/:unit?/:lang?
-
 ```
 If not specify the ``unit`` parameter fallback to ``auto`` and the ``lang`` parameter fallback to ``en``.
 Refer to the [Forecast API Docs](https://developer.forecast.io/docs/v2) for details.
@@ -72,7 +71,7 @@ $ curl -sv "http://localhost:8080/api/:lat/:lon/:time/:unit?/:lang?" | jq .
 
 Licence
 -------
-The piwigo-openstreetmap plugin for Piwigo is free software:  you can redistribute it
+nodejs-forecast is free software:  you can redistribute it
 and/or  modify  it under  the  terms  of the  GNU  General  Public License  as
 published by the Free Software Foundation.
 
