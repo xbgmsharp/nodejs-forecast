@@ -27,5 +27,15 @@
     "mongodb": "~2.0.28",
     "monk": "~1.0.0",
     "forecast.io": "~0.0.9"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/xbgmsharp/nodejs-forecast/issues"
+  },
+  "repository": {
+    "url": "git@github.com:xbgmsharp/nodejs-forecast.git"
   }
 }
