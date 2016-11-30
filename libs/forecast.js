@@ -3,7 +3,7 @@ var util = require('util');
 /****
 ** Forecast function
 ***/
-var Forecast = require('forecast.io');
+var Forecast = require('./forecast.io');
 var options = {
   APIKey: process.env.FORECAST_API_KEY,
   exclude: 'currently,minutely,hourly,alerts',
@@ -24,7 +24,7 @@ exports.api = function(req, res, callback) {
         if (req.params.lang)
            options.lang = req.params.lang;
 
-	console.log('Calling Forecast API for: ' + JSON.stringify(req.params));
+	console.log('Calling DarkSky API for: ' + JSON.stringify(req.params));
 	forecast.getAtTime(lat, lon, time, options, function (err, result, data) {
 		if (err) {
 			//res.send({'error':'An error has occurred'});
