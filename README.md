@@ -1,8 +1,8 @@
 # nodejs-forecast
 
-This NodeJS application is use to proxy the [Forecast.io](http://forecast.io) request for the [Piwigo integration](http://piwigo.org/ext/extension_view.php?eid=795).
+This NodeJS application is use to proxy the [DarkSky.net](https://DarkSky.net) request for the [Piwigo integration](http://piwigo.org/ext/extension_view.php?eid=795).
 
-This is mainly to hide my API key and to avoid the limit requests set by the forecast.io API, eg: 1000 per day free.
+This is mainly to hide my API key and to avoid the limit requests set by the Dark Sky API, eg: 1000 per day free.
 
 It allow to cache the result. No IP are log.
 
@@ -51,7 +51,7 @@ Query format:
 /api/:lat/:lon/:time/:unit?/:lang?
 ```
 If not specify the ``unit`` parameter fallback to ``auto`` and the ``lang`` parameter fallback to ``en``.
-Refer to the [Forecast API Docs](https://developer.forecast.io/docs/v2) for details.
+Refer to the [Dark Sky API Docs](https://darksky.net/dev/docs/time-machine) for details.
 
 First query:
 ```bash
