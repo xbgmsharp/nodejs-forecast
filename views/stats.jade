@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+  p Items #{count}
+   ul
+    -for (var id in data)
+      - var item = data[id]
+         div
+            li #{item.status} - #{item.value} - #{item.date}
+
