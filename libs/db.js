@@ -2,13 +2,13 @@
 ** DB functions
 ***/
 
-/* Calculate value in range of 0.5 Degres
+/* Calculate value in range of 0.4 Degres
  * 1 Degres Latitude = 111 KM
  */
 function Calc_Max_Min(value) {
 
-	max = parseFloat(value)+0.5;
-	min = parseFloat(value)-0.5;
+	max = parseFloat(value)+0.4;
+	min = parseFloat(value)-0.4;
 
 	return [ parseFloat(min.toPrecision(3)), parseFloat(max.toPrecision(3)) ];
 }
@@ -31,7 +31,7 @@ exports.db_search = function(req, res, callback) {
 	query["lat"] = {$gte: mylat[0] , $lte: mylat[1] };
 	mylon = Calc_Max_Min(lon);
 	query["lon"] = {$gte: mylon[0] , $lte: mylon[1] };
-	query["time"] = { $in: [ new RegExp("^" + time.substr(0,6)) ]}; // within the same hour range
+	query["time"] = { $in: [ new RegExp("^" + time.substr(0,7)) ]}; // within the same day and hour range
 	query["unit"] = unit;
 	query["lang"] = lang;
 	console.log('Search query:'+ JSON.stringify(query));
