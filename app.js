@@ -25,8 +25,11 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
 		process.env.OPENSHIFT_APP_NAME + "?authSource=admin";
 }
 var db = monk(connection_string);
+var dbstats = require('./libs/dbstats');
+dbstats.db_stats_init(db);
 
 var routes = require('./routes/index');
+var stats = require('./routes/stats');
 var api = require('./routes/api');
 
 var app = express();
@@ -52,6 +55,7 @@ app.use(function(req,res,next){
 
 app.use('/', routes);
 app.use('/api', api);
+app.use('/stats', stats);
 
 /* If Openshift skip it */
 if(!process.env.OPENSHIFT_MONGODB_DB_PASSWORD){

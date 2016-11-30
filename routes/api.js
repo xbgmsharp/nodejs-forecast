@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var util = require('util');
 var db = require('../libs/db');
+var stats = require('../libs/dbstats');
 var forecast = require('../libs/forecast');
 
 /* GET data API */
@@ -32,15 +33,16 @@ router.get('/:lat/:lon/:time/:unit?/:lang?', function(req, res, next) {
 
 		/* If "result" is not empty then return it */
 		if (res.data[0] && res.data[0].result && res.data[0].result.length != 0) {
-			console.log('HIT: ' + JSON.stringify(res.data));
+			//console.log('HIT: ' + JSON.stringify(res.data));
+			stats.db_stats_update(req, 'HIT');
 			res.append('Cache-Control', 'public, max-age=2592000000'); // 30 Days = 86400000*30
 			res.append('X-Cache', 'HIT');
 			res.json({ 'success': res.data});
 		} else {
 
-			/* else Forecast API */
+			/* else DarkSky API */
 			forecast.api(req, res, function (req, res){
-				console.log('DEBUG: Back from forecast.api');
+				console.log('DEBUG: Back from darksky.api');
 				console.log('DEBUG: ' + util.inspect(res.data));
 
 				/* If "result" is not empty then insert and return */
@@ -49,7 +51,8 @@ router.get('/:lat/:lon/:time/:unit?/:lang?', function(req, res, next) {
 					/* Insert result in DB for cache */
 					db.db_insert(req, res, function (req, res){
 						console.log('DEBUG: Back from db_insert');
-						console.log('MISS: ' + JSON.stringify(res.data));
+						//console.log('MISS: ' + JSON.stringify(res.data));
+						stats.db_stats_update(req, 'MISS');
 
 						res.append('Cache-Control', 'public, max-age=2592000000'); // 30 Days = 86400000*30
 						res.append('X-Cache', 'MISS');
@@ -59,9 +62,9 @@ router.get('/:lat/:lon/:time/:unit?/:lang?', function(req, res, next) {
 				} else {
 					/* else send error */
 					res.json({ 'error': 'no result' });
-				} /* END no result from Forecast API */
+				} /* END no result from DarkSky API */
 
-			}); /* END Forecast API */
+			}); /* END DarkSky API */
 
 		} /* END no result from DB search */
 
